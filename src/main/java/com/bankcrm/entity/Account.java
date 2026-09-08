@@ -1,10 +1,6 @@
 package com.bankcrm.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "accounts")
@@ -14,27 +10,65 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String accountNumber;
+
+    @Column(nullable = false)
+    private String accountType;
+
+    @Column(nullable = false)
     private Double balance;
-    private Long customerId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     public Account() {}
 
-    public Account(String accountNumber, Double balance, Long customerId) {
+    public Account(String accountNumber, String accountType, Double balance, Customer customer) {
         this.accountNumber = accountNumber;
+        this.accountType = accountType;
         this.balance = balance;
-        this.customerId = customerId;
+        this.customer = customer;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() { 
+        return id; 
+    }
+    
+    public void setId(Long id) { 
+        this.id = id; 
+    }
 
-    public String getAccountNumber() { return accountNumber; }
-    public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
+    public String getAccountNumber() { 
+        return accountNumber; 
+    }
+    
+    public void setAccountNumber(String accountNumber) { 
+        this.accountNumber = accountNumber; 
+    }
 
-    public Double getBalance() { return balance; }
-    public void setBalance(Double balance) { this.balance = balance; }
+    public String getAccountType() { 
+        return accountType; 
+    }
+    
+    public void setAccountType(String accountType) { 
+        this.accountType = accountType; 
+    }
 
-    public Long getCustomerId() { return customerId; }
-    public void setCustomerId(Long customerId) { this.customerId = customerId; }
+    public Double getBalance() { 
+        return balance; 
+    }
+    
+    public void setBalance(Double balance) { 
+        this.balance = balance; 
+    }
+
+    public Customer getCustomer() { 
+        return customer; 
+    }
+    
+    public void setCustomer(Customer customer) { 
+        this.customer = customer; 
+    }
 }
